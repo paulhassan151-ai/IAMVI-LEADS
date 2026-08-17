@@ -1,0 +1,628 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IAMVI LEADS — Find Businesses. Find Customers.</title>
+
+    <meta name="description"
+          content="IAMVI LEADS helps you discover businesses, find potential customers and manage your sales leads.">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        <span>IAMVI</span> LEADS
+    </div>
+
+    <nav>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-buttons">
+        <button class="login-btn">Log in</button>
+        <button class="primary-btn">Get Started</button>
+    </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            ✦ SMART BUSINESS LEAD GENERATION
+        </div>
+
+        <h1>
+            Find businesses.
+            <span>Find your next customer.</span>
+        </h1>
+
+        <p>
+            Discover businesses in any city, identify potential leads,
+            organize your prospects and turn opportunities into customers.
+        </p>
+
+        <!-- SEARCH BOX -->
+
+        <div class="search-box">
+
+            <div class="search-field">
+                <label>What are you looking for?</label>
+                <input
+                    type="text"
+                    id="businessType"
+                    placeholder="e.g. restaurants, hotels, salons"
+                >
+            </div>
+
+            <div class="search-field">
+                <label>Where?</label>
+                <input
+                    type="text"
+                    id="location"
+                    placeholder="e.g. Abuja, Lagos, Kano"
+                >
+            </div>
+
+            <button class="search-btn" onclick="searchLeads()">
+                🔍 Find Leads
+            </button>
+
+        </div>
+
+        <div class="hero-note">
+            ✓ Fast search &nbsp;&nbsp;
+            ✓ Organized leads &nbsp;&nbsp;
+            ✓ Export your prospects
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SEARCH RESULT PREVIEW ================= -->
+
+<section class="results-section" id="results">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="small-title">LIVE PREVIEW</span>
+
+            <h2>
+                Your potential customers,
+                <span>all in one place.</span>
+            </h2>
+        </div>
+
+        <button class="outline-btn">
+            Export CSV ↓
+        </button>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <div class="dashboard-top">
+
+            <div>
+                <strong id="resultTitle">
+                    Business leads
+                </strong>
+
+                <p id="resultSubtitle">
+                    Search for businesses to see potential leads.
+                </p>
+            </div>
+
+            <div class="result-count">
+                <strong id="leadCount">0</strong>
+                <span>Potential Leads</span>
+            </div>
+
+        </div>
+
+
+        <div class="lead-table">
+
+            <div class="table-header">
+                <span>BUSINESS</span>
+                <span>CATEGORY</span>
+                <span>LOCATION</span>
+                <span>RATING</span>
+                <span>STATUS</span>
+            </div>
+
+
+            <div class="lead-row">
+
+                <div class="business-info">
+                    <div class="business-icon">🏨</div>
+
+                    <div>
+                        <strong>Premium Business</strong>
+                        <small>+234 800 000 0000</small>
+                    </div>
+                </div>
+
+                <span>Hotel</span>
+
+                <span>Abuja</span>
+
+                <span>⭐ 4.8</span>
+
+                <span class="status hot">
+                    Hot Lead
+                </span>
+
+            </div>
+
+
+            <div class="lead-row">
+
+                <div class="business-info">
+                    <div class="business-icon">🍽️</div>
+
+                    <div>
+                        <strong>City Restaurant</strong>
+                        <small>+234 801 000 0000</small>
+                    </div>
+                </div>
+
+                <span>Restaurant</span>
+
+                <span>Lagos</span>
+
+                <span>⭐ 4.6</span>
+
+                <span class="status warm">
+                    Warm
+                </span>
+
+            </div>
+
+
+            <div class="lead-row">
+
+                <div class="business-info">
+                    <div class="business-icon">💇</div>
+
+                    <div>
+                        <strong>Luxury Beauty</strong>
+                        <small>+234 802 000 0000</small>
+                    </div>
+                </div>
+
+                <span>Salon</span>
+
+                <span>Kano</span>
+
+                <span>⭐ 4.5</span>
+
+                <span class="status new">
+                    New
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features" id="features">
+
+    <div class="section-center">
+
+        <span class="small-title">POWERFUL TOOLS</span>
+
+        <h2>
+            Everything you need to
+            <span>build your pipeline.</span>
+        </h2>
+
+        <p>
+            Stop searching manually. IAMVI LEADS gives you the tools
+            to discover, organize and manage your prospects.
+        </p>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">🔎</div>
+
+            <h3>Business Search</h3>
+
+            <p>
+                Search businesses by industry, category,
+                city and location.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">📊</div>
+
+            <h3>Lead Dashboard</h3>
+
+            <p>
+                Keep all your prospects organized in one
+                simple dashboard.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">📞</div>
+
+            <h3>Contact Information</h3>
+
+            <p>
+                Quickly access available business contact
+                information.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">💾</div>
+
+            <h3>Save Leads</h3>
+
+            <p>
+                Save important prospects and return to them
+                whenever you need.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">📥</div>
+
+            <h3>Export Leads</h3>
+
+            <p>
+                Export your prospect list and continue
+                working with your favorite tools.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">📱</div>
+
+            <h3>Mobile Friendly</h3>
+
+            <p>
+                Search and manage your leads directly from
+                your smartphone.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how-it-works" id="how-it-works">
+
+    <div class="section-center">
+
+        <span class="small-title">HOW IT WORKS</span>
+
+        <h2>
+            From search to
+            <span>customer.</span>
+        </h2>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">01</div>
+
+            <h3>Search</h3>
+
+            <p>
+                Enter the type of business and location
+                you're targeting.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">02</div>
+
+            <h3>Discover</h3>
+
+            <p>
+                Browse potential businesses and review
+                available lead information.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">03</div>
+
+            <h3>Save</h3>
+
+            <p>
+                Save the best prospects to your personal
+                lead pipeline.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">04</div>
+
+            <h3>Convert</h3>
+
+            <p>
+                Contact your prospects and turn opportunities
+                into customers.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PRICING ================= -->
+
+<section class="pricing" id="pricing">
+
+    <div class="section-center">
+
+        <span class="small-title">PRICING</span>
+
+        <h2>
+            Start finding leads
+            <span>today.</span>
+        </h2>
+
+        <p>
+            Choose the plan that fits your prospecting needs.
+        </p>
+
+    </div>
+
+
+    <div class="pricing-grid">
+
+
+        <div class="price-card">
+
+            <h3>Free</h3>
+
+            <div class="price">
+                ₦0
+                <small>/month</small>
+            </div>
+
+            <p>For trying IAMVI LEADS.</p>
+
+            <ul>
+                <li>✓ Basic searches</li>
+                <li>✓ Limited leads</li>
+                <li>✓ Save prospects</li>
+                <li>✓ Mobile access</li>
+            </ul>
+
+            <button class="outline-btn full">
+                Get Started
+            </button>
+
+        </div>
+
+
+        <div class="price-card featured">
+
+            <div class="popular">
+                MOST POPULAR
+            </div>
+
+            <h3>Professional</h3>
+
+            <div class="price">
+                ₦9,900
+                <small>/month</small>
+            </div>
+
+            <p>For serious prospecting.</p>
+
+            <ul>
+                <li>✓ More lead searches</li>
+                <li>✓ Larger lead lists</li>
+                <li>✓ Lead dashboard</li>
+                <li>✓ CSV export</li>
+                <li>✓ Lead management</li>
+            </ul>
+
+            <button class="primary-btn full">
+                Start Professional
+            </button>
+
+        </div>
+
+
+        <div class="price-card">
+
+            <h3>Business</h3>
+
+            <div class="price">
+                ₦24,900
+                <small>/month</small>
+            </div>
+
+            <p>For teams and agencies.</p>
+
+            <ul>
+                <li>✓ High-volume searches</li>
+                <li>✓ Team dashboard</li>
+                <li>✓ Advanced filters</li>
+                <li>✓ CSV export</li>
+                <li>✓ Priority support</li>
+            </ul>
+
+            <button class="outline-btn full">
+                Contact Sales
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+    <div>
+
+        <span class="small-title">READY TO GROW?</span>
+
+        <h2>
+            Your next customer
+            could be one search away.
+        </h2>
+
+        <p>
+            Start discovering businesses and build your
+            sales pipeline with IAMVI LEADS.
+        </p>
+
+        <button class="primary-btn">
+            Start Finding Leads →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer id="contact">
+
+    <div class="footer-main">
+
+        <div class="footer-brand">
+
+            <div class="logo">
+                <span>IAMVI</span> LEADS
+            </div>
+
+            <p>
+                Find businesses. Build relationships.
+                Grow your business.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <div>
+                <h4>Platform</h4>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+
+
+            <div>
+                <h4>Company</h4>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy</a>
+            </div>
+
+
+            <div>
+                <h4>Support</h4>
+                <a href="#">Help Center</a>
+                <a href="#">FAQs</a>
+                <a href="#">Contact Support</a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 IAMVI LEADS. All rights reserved.
+        </span>
+
+        <span>
+            Built for modern businesses.
+        </span>
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
+```
