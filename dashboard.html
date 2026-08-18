@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IAMVI LEADS — Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .dashboard-page {
+            min-height: 100vh;
+            background: #070707;
+        }
+
+        .dashboard-layout {
+            max-width: 1400px;
+            margin: auto;
+            padding: 35px 5%;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 32px;
+            margin-top: 8px;
+        }
+
+        .dashboard-header p {
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #d4af37;
+            color: #080808;
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            padding: 24px;
+            background: #101010;
+            border: 1px solid #242424;
+            border-radius: 12px;
+        }
+
+        .stat-card p {
+            color: #777;
+            font-size: 12px;
+        }
+
+        .stat-card h2 {
+            margin-top: 8px;
+            font-size: 30px;
+        }
+
+        .gold-number {
+            color: #d4af37;
+        }
+
+        .dashboard-search {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            padding: 12px;
+            background: #101010;
+            border: 1px solid #292929;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-search input {
+            width: 100%;
+            padding: 14px;
+            background: #181818;
+            border: 1px solid #292929;
+            border-radius: 8px;
+            outline: none;
+            color: white;
+        }
+
+        .dashboard-search input:focus {
+            border-color: #d4af37;
+        }
+
+        .lead-panel {
+            background: #101010;
+            border: 1px solid #242424;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #242424;
+        }
+
+        .panel-header p {
+            color: #777;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 13px;
+            border: 1px solid #292929;
+            border-radius: 7px;
+            background: #161616;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            color: #d4af37;
+            border-color: #6d5a22;
+        }
+
+        .lead-list {
+            overflow-x: auto;
+        }
+
+        .lead-list-header,
+        .lead-item {
+            min-width: 900px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.2fr 1fr 1fr 120px;
+            gap: 15px;
+            align-items: center;
+            padding: 18px 22px;
+        }
+
+        .lead-list-header {
+            color: #666;
+            font-size: 10px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #222;
+        }
+
+        .lead-item {
+            border-bottom: 1px solid #1f1f1f;
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .lead-item:last-child {
+            border-bottom: none;
+        }
+
+        .lead-business {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lead-business strong {
+            display: block;
+            color: white;
+        }
+
+        .lead-business small {
+            color: #666;
+        }
+
+        .lead-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            background: #1b1b1b;
+            border-radius: 8px;
+            font-size: 19px;
+        }
+
+        .lead-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid #292929;
+            background: #161616;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            color: #d4af37;
+            border-color: #6d5a22;
+        }
+
+        .saved {
+            color: #d4af37;
+        }
+
+        .sidebar-link {
+            color: #aaa;
+            margin-right: 20px;
+            font-size: 13px;
+        }
+
+        .sidebar-link:hover {
+            color: #d4af37;
+        }
+
+        @media (max-width: 900px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dashboard-search {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-header {
+                align-items: flex-start;
+                gap: 20px;
+                flex-direction: column;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .dashboard-layout {
+                padding: 25px 4%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-page">
+
+    <!-- NAVIGATION -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <span>IAMVI</span> LEADS
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="#">Saved Leads</a>
+            <a href="#">Settings</a>
+        </nav>
+
+        <div class="user-profile">
+            <div>
+                <strong>My Account</strong>
+            </div>
+
+            <div class="avatar">
+                IV
+            </div>
+        </div>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+
+    <main class="dashboard-layout">
+
+        <div class="dashboard-header">
+
+            <div>
+                <span class="small-title">
+                    LEAD GENERATION
+                </span>
+
+                <h1>
+                    Lead Dashboard
+                </h1>
+
+                <p>
+                    Find, organize and manage your potential customers.
+                </p>
+            </div>
+
+            <button class="primary-btn" onclick="exportLeads()">
+                ↓ Export CSV
+            </button>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <p>TOTAL LEADS</p>
+                <h2 class="gold-number">128</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>SAVED LEADS</p>
+                <h2>46</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>CONTACTED</p>
+                <h2>31</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>HOT LEADS</p>
+                <h2 class="gold-number">17</h2>
+            </div>
+
+        </section>
+
+
+        <!-- SEARCH -->
+
+        <section class="dashboard-search">
+
+            <input
+                type="text"
+                id="dashboardBusiness"
+                placeholder="Business type..."
+            >
+
+            <input
+                type="text"
+                id="dashboardLocation"
+                placeholder="Location..."
+            >
+
+            <button
+                class="primary-btn"
+                onclick="dashboardSearch()"
+            >
+                🔍 Search
+            </button>
+
+        </section>
+
+
+        <!-- LEADS -->
+
+        <section class="lead-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <strong>My Leads</strong>
+
+                    <p>
+                        Manage your business prospects.
+                    </p>
+                </div>
+
+                <div class="filter-buttons">
+
+                    <button
+                        class="filter-btn active"
+                        onclick="filterLeads('all', this)"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        onclick="filterLeads('hot', this)"
+                    >
+                        Hot
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        onclick="filterLeads('warm', this)"
+                    >
+                        Warm
+                    </button>
+
+                    <button
+                        class="filter-btn"
+                        onclick="filterLeads('new', this)"
+                    >
+                        New
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="lead-list">
+
+                <div class="lead-list-header">
+
+                    <span>BUSINESS</span>
+                    <span>CATEGORY</span>
+                    <span>LOCATION</span>
+                    <span>PHONE</span>
+                    <span>STATUS</span>
+                    <span>ACTIONS</span>
+
+                </div>
+
+
+                <div id="dashboardLeads">
+
+                    <div
+                        class="lead-item"
+                        data-status="hot"
+                    >
+
+                        <div class="lead-business">
+
+                            <div class="lead-icon">
+                                🏨
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Royal Palace Hotel
+                                </strong>
+
+                                <small>
+                                    royalpalace@example.com
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <span>Hotel</span>
+
+                        <span>Abuja</span>
+
+                        <span>
+                            +234 801 234 5678
+                        </span>
+
+                        <span class="status hot">
+                            Hot Lead
+                        </span>
+
+                        <div class="lead-actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="saveLead(this)"
+                                title="Save"
+                            >
+                                ☆
+                            </button>
+
+                            <button
+                                class="action-btn"
+                                onclick="contactLead()"
+                                title="Contact"
+                            >
+                                ☎
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="lead-item"
+                        data-status="warm"
+                    >
+
+                        <div class="lead-business">
+
+                            <div class="lead-icon">
+                                🍽️
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Capital View Restaurant
+                                </strong>
+
+                                <small>
+                                    capitalview@example.com
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <span>Restaurant</span>
+
+                        <span>Abuja</span>
+
+                        <span>
+                            +234 802 345 6789
+                        </span>
+
+                        <span class="status warm">
+                            Warm
+                        </span>
+
+                        <div class="lead-actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="saveLead(this)"
+                            >
+                                ☆
+                            </button>
+
+                            <button
+                                class="action-btn"
+                                onclick="contactLead()"
+                            >
+                                ☎
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="lead-item"
+                        data-status="new"
+                    >
+
+                        <div class="lead-business">
+
+                            <div class="lead-icon">
+                                💇
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Luxury Touch Salon
+                                </strong>
+
+                                <small>
+                                    luxury@example.com
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <span>Salon</span>
+
+                        <span>Abuja</span>
+
+                        <span>
+                            +234 803 456 7890
+                        </span>
+
+                        <span class="status new">
+                            New
+                        </span>
+
+                        <div class="lead-actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="saveLead(this)"
+                            >
+                                ☆
+                            </button>
+
+                            <button
+                                class="action-btn"
+                                onclick="contactLead()"
+                            >
+                                ☎
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* ==========================
+       FILTER LEADS
+    ========================== */
+
+    function filterLeads(status, button) {
+
+        const leads =
+            document.querySelectorAll(".lead-item");
+
+        const buttons =
+            document.querySelectorAll(".filter-btn");
+
+
+        buttons.forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+
+        leads.forEach(lead => {
+
+            if (
+                status === "all" ||
+                lead.dataset.status === status
+            ) {
+
+                lead.style.display = "grid";
+
+            } else {
+
+                lead.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    /* ==========================
+       SAVE LEAD
+    ========================== */
+
+    function saveLead(button) {
+
+        button.classList.toggle("saved");
+
+        if (button.classList.contains("saved")) {
+
+            button.textContent = "★";
+
+        } else {
+
+            button.textContent = "☆";
+
+        }
+
+    }
+
+
+    /* ==========================
+       CONTACT
+    ========================== */
+
+    function contactLead() {
+
+        alert(
+            "Contact feature will be connected to WhatsApp, phone and email in the next version."
+        );
+
+    }
+
+
+    /* ==========================
+       DASHBOARD SEARCH
+    ========================== */
+
+    function dashboardSearch() {
+
+        const business =
+            document
+                .getElementById("dashboardBusiness")
+                .value
+                .trim();
+
+        const location =
+            document
+                .getElementById("dashboardLocation")
+                .value
+                .trim();
+
+
+        if (!business || !location) {
+
+            alert(
+                "Enter a business type and location."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            `Searching for ${business} businesses in ${location}...`
+        );
+
+    }
+
+
+    /* ==========================
+       EXPORT CSV
+    ========================== */
+
+    function exportLeads() {
+
+        const csv = [
+            [
+                "Business",
+                "Category",
+                "Location",
+                "Phone",
+                "Status"
+            ],
+
+            [
+                "Royal Palace Hotel",
+                "Hotel",
+                "Abuja",
+                "+234 801 234 5678",
+                "Hot Lead"
+            ],
+
+            [
+                "Capital View Restaurant",
+                "Restaurant",
+                "Abuja",
+                "+234 802 345 6789",
+                "Warm"
+            ],
+
+            [
+                "Luxury Touch Salon",
+                "Salon",
+                "Abuja",
+                "+234 803 456 7890",
+                "New"
+            ]
+
+        ];
+
+
+        const csvContent =
+            csv
+                .map(row => row.join(","))
+                .join("\n");
+
+
+        const blob =
+            new Blob(
+                [csvContent],
+                { type: "text/csv;charset=utf-8;" }
+            );
+
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+        link.download = "iamvi-leads.csv";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(url);
+
+    }
+
+</script>
+
+</body>
+</html>
