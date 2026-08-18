@@ -1,6 +1,6 @@
 /* ==========================================
    IAMVI LEADS
-   Frontend Demo Search System
+   SEARCH + DASHBOARD CONNECTION
 ========================================== */
 
 const demoBusinesses = [
@@ -9,62 +9,78 @@ const demoBusinesses = [
         category: "Hotel",
         location: "Abuja",
         phone: "+234 801 234 5678",
-        rating: "4.8"
+        email: "royalpalace@example.com",
+        rating: "4.8",
+        status: "Hot Lead"
     },
     {
         name: "Capital View Restaurant",
         category: "Restaurant",
         location: "Abuja",
         phone: "+234 802 345 6789",
-        rating: "4.6"
+        email: "capitalview@example.com",
+        rating: "4.6",
+        status: "Warm"
     },
     {
         name: "Luxury Touch Salon",
         category: "Salon",
         location: "Abuja",
         phone: "+234 803 456 7890",
-        rating: "4.7"
+        email: "luxury@example.com",
+        rating: "4.7",
+        status: "New"
     },
     {
         name: "Prime Auto Centre",
         category: "Car Dealer",
         location: "Lagos",
         phone: "+234 804 567 8901",
-        rating: "4.5"
+        email: "primeauto@example.com",
+        rating: "4.5",
+        status: "Hot Lead"
     },
     {
         name: "City View Hotel",
         category: "Hotel",
         location: "Lagos",
         phone: "+234 805 678 9012",
-        rating: "4.4"
+        email: "cityview@example.com",
+        rating: "4.4",
+        status: "Warm"
     },
     {
         name: "Elite Fashion House",
         category: "Fashion",
         location: "Kano",
         phone: "+234 806 789 0123",
-        rating: "4.7"
+        email: "elitefashion@example.com",
+        rating: "4.7",
+        status: "New"
     },
     {
         name: "Northern Tech Hub",
         category: "Technology",
         location: "Kano",
         phone: "+234 807 890 1234",
-        rating: "4.6"
+        email: "northerntech@example.com",
+        rating: "4.6",
+        status: "Warm"
     },
     {
         name: "Golden Events Centre",
         category: "Events",
         location: "Abuja",
         phone: "+234 808 901 2345",
-        rating: "4.9"
+        email: "goldenevents@example.com",
+        rating: "4.9",
+        status: "Hot Lead"
     }
 ];
 
 
 /* ==========================================
-   SEARCH LEADS
+   SEARCH FROM HOMEPAGE
 ========================================== */
 
 function searchLeads() {
@@ -76,39 +92,47 @@ function searchLeads() {
         document.getElementById("location");
 
     const businessType =
-        businessInput.value.trim().toLowerCase();
+        businessInput.value.trim();
 
     const location =
-        locationInput.value.trim().toLowerCase();
+        locationInput.value.trim();
 
 
     if (!businessType || !location) {
 
         alert(
-            "Please enter both a business type and a location."
+            "Please enter a business type and location."
         );
 
         return;
     }
 
 
-    const results = demoBusinesses.filter(business => {
+    const results = findBusinesses(
+        businessType,
+        location
+    );
 
-        const categoryMatch =
-            business.category
-                .toLowerCase()
-                .includes(businessType) ||
-            business.name
-                .toLowerCase()
-                .includes(businessType);
 
-        const locationMatch =
-            business.location
-                .toLowerCase()
-                .includes(location);
+    /*
+       Save the search temporarily.
+       The dashboard can read this later.
+    */
 
-        return categoryMatch && locationMatch;
-    });
+    sessionStorage.setItem(
+        "iamviSearchType",
+        businessType
+    );
+
+    sessionStorage.setItem(
+        "iamviSearchLocation",
+        location
+    );
+
+    sessionStorage.setItem(
+        "iamviSearchResults",
+        JSON.stringify(results)
+    );
 
 
     displayResults(
@@ -121,10 +145,52 @@ function searchLeads() {
 
 
 /* ==========================================
-   DISPLAY RESULTS
+   FIND BUSINESSES
 ========================================== */
 
-function displayResults(results, businessType, location) {
+function findBusinesses(type, location) {
+
+    const searchType =
+        type.toLowerCase();
+
+    const searchLocation =
+        location.toLowerCase();
+
+
+    return demoBusinesses.filter(business => {
+
+        const matchesType =
+            business.category
+                .toLowerCase()
+                .includes(searchType) ||
+
+            business.name
+                .toLowerCase()
+                .includes(searchType);
+
+
+        const matchesLocation =
+            business.location
+                .toLowerCase()
+                .includes(searchLocation);
+
+
+        return matchesType && matchesLocation;
+
+    });
+
+}
+
+
+/* ==========================================
+   DISPLAY SEARCH RESULTS
+========================================== */
+
+function displayResults(
+    results,
+    businessType,
+    location
+) {
 
     const leadCount =
         document.getElementById("leadCount");
@@ -135,27 +201,31 @@ function displayResults(results, businessType, location) {
     const resultSubtitle =
         document.getElementById("resultSubtitle");
 
-
-    leadCount.textContent = results.length;
-
-    resultTitle.textContent =
-        `${capitalize(businessType)} leads`;
-
-    resultSubtitle.textContent =
-        `Search results for ${capitalize(businessType)} in ${capitalize(location)}`;
-
-
     const table =
         document.querySelector(".lead-table");
 
 
+    leadCount.textContent =
+        results.length;
+
+
+    resultTitle.textContent =
+        `${capitalize(businessType)} leads`;
+
+
+    resultSubtitle.textContent =
+        `Results for ${capitalize(businessType)} in ${capitalize(location)}`;
+
+
     const header = `
         <div class="table-header">
+
             <span>BUSINESS</span>
             <span>CATEGORY</span>
             <span>LOCATION</span>
             <span>RATING</span>
             <span>STATUS</span>
+
         </div>
     `;
 
@@ -166,39 +236,41 @@ function displayResults(results, businessType, location) {
             ${header}
 
             <div style="
-                padding:50px 25px;
+                padding:55px 20px;
                 text-align:center;
                 color:#777;
             ">
-                <div style="font-size:35px;margin-bottom:10px;">
+
+                <div style="font-size:38px;">
                     🔎
                 </div>
 
-                <strong style="color:white;">
+                <strong style="
+                    display:block;
+                    color:white;
+                    margin-top:10px;
+                ">
                     No demo leads found
                 </strong>
 
-                <p style="margin-top:8px;">
-                    Try another business type or location.
+                <p>
+                    Try another business type or city.
                 </p>
+
             </div>
         `;
 
-    } else {
+        return;
+    }
 
-        const rows = results.map((business, index) => {
 
-            const status =
-                index === 0
-                    ? "Hot Lead"
-                    : index === 1
-                    ? "Warm"
-                    : "New";
+    const rows =
+        results.map((business, index) => {
 
             const statusClass =
-                index === 0
+                business.status === "Hot Lead"
                     ? "hot"
-                    : index === 1
+                    : business.status === "Warm"
                     ? "warm"
                     : "new";
 
@@ -209,10 +281,13 @@ function displayResults(results, businessType, location) {
                     <div class="business-info">
 
                         <div class="business-icon">
-                            ${getBusinessIcon(business.category)}
+                            ${getBusinessIcon(
+                                business.category
+                            )}
                         </div>
 
                         <div>
+
                             <strong>
                                 ${business.name}
                             </strong>
@@ -220,6 +295,7 @@ function displayResults(results, businessType, location) {
                             <small>
                                 ${business.phone}
                             </small>
+
                         </div>
 
                     </div>
@@ -237,7 +313,7 @@ function displayResults(results, businessType, location) {
                     </span>
 
                     <span class="status ${statusClass}">
-                        ${status}
+                        ${business.status}
                     </span>
 
                 </div>
@@ -246,21 +322,13 @@ function displayResults(results, businessType, location) {
         }).join("");
 
 
-        table.innerHTML =
-            header + rows;
-    }
-
-
-    document
-        .getElementById("results")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
+    table.innerHTML =
+        header + rows;
 }
 
 
 /* ==========================================
-   BUSINESS ICONS
+   BUSINESS ICON
 ========================================== */
 
 function getBusinessIcon(category) {
@@ -288,7 +356,7 @@ function getBusinessIcon(category) {
 
 
 /* ==========================================
-   CAPITALIZE TEXT
+   CAPITALIZE
 ========================================== */
 
 function capitalize(text) {
@@ -300,47 +368,7 @@ function capitalize(text) {
             word.slice(1)
         )
         .join(" ");
-}
 
-
-/* ==========================================
-   MOBILE MENU
-========================================== */
-
-function toggleMenu() {
-
-    const navbar = document.querySelector(".navbar");
-
-    const nav = document.querySelector(".navbar nav");
-
-    const buttons =
-        document.querySelector(".nav-buttons");
-
-
-    if (nav.style.display === "flex") {
-
-        nav.style.display = "none";
-        buttons.style.display = "none";
-
-    } else {
-
-        nav.style.display = "flex";
-        nav.style.flexDirection = "column";
-        nav.style.position = "absolute";
-        nav.style.top = "76px";
-        nav.style.left = "0";
-        nav.style.width = "100%";
-        nav.style.padding = "25px";
-        nav.style.background = "#090909";
-
-        buttons.style.display = "flex";
-        buttons.style.position = "absolute";
-        buttons.style.top = "300px";
-        buttons.style.left = "0";
-        buttons.style.width = "100%";
-        buttons.style.padding = "20px";
-        buttons.style.background = "#090909";
-    }
 }
 
 
@@ -348,21 +376,30 @@ function toggleMenu() {
    ENTER KEY SEARCH
 ========================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    const inputs =
-        document.querySelectorAll(".search-field input");
+        const inputs =
+            document.querySelectorAll(
+                ".search-field input"
+            );
 
-    inputs.forEach(input => {
 
-        input.addEventListener("keypress", event => {
+        inputs.forEach(input => {
 
-            if (event.key === "Enter") {
-                searchLeads();
-            }
+            input.addEventListener(
+                "keypress",
+                event => {
+
+                    if (event.key === "Enter") {
+                        searchLeads();
+                    }
+
+                }
+            );
 
         });
 
-    });
-
-});
+    }
+);
